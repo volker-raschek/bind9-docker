@@ -284,6 +284,8 @@ steps:
     - failure
 
 trigger:
+  branch:
+  - master
   event:
   - push
   repo:

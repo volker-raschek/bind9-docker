@@ -11,7 +11,7 @@ steps:
 - name: markdown lint
   commands:
   - markdownlint *.md
-  image: docker.io/volkerraschek/markdownlint:0.28.1
+  image: docker.io/volkerraschek/markdownlint:0.29.0
   resources:
     limits:
       cpu: 50
@@ -41,6 +41,7 @@ trigger:
   event:
     exclude:
     - tag
+
 ---
 kind: pipeline
 type: docker
@@ -66,9 +67,6 @@ steps:
   volumes:
   - name: docker_socket
     path: /var/run/docker.sock
-  when:
-    branch:
-    - master
 
 - name: notify
   image: drillster/drone-email
@@ -91,10 +89,17 @@ volumes:
   host:
     path: /var/run/docker.sock
 
+depends_on:
+- linter
+
 trigger:
+  branch:
+  - master
   event:
-    exclude:
-    - tag
+  - cron
+  - push
+  repo:
+  - volker.raschek/bind9-docker
 
 ---
 kind: pipeline
@@ -137,9 +142,13 @@ depends_on:
 - latest-amd64
 
 trigger:
+  branch:
+  - master
   event:
-    exclude:
-    - tag
+  - cron
+  - push
+  repo:
+  - volker.raschek/bind9-docker
 
 ---
 kind: pipeline
@@ -283,10 +292,14 @@ steps:
     - changed
     - failure
 
+depends_on:
+- latest-manifest
+
 trigger:
   branch:
   - master
   event:
+  - cron
   - push
   repo:
   - volker.raschek/bind9-docker

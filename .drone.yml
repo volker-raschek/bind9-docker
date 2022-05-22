@@ -53,7 +53,7 @@ platform:
 
 steps:
 - name: build
-  image: plugins/docker
+  image: docker.io/plugins/docker:latest
   settings:
     dockerfile: Dockerfile
     auto_tag: false
@@ -114,7 +114,7 @@ platform:
 
 steps:
 - name: build
-  image: plugins/docker
+  image: docker.io/plugins/docker:latest
   settings:
     dockerfile: Dockerfile
     auto_tag: false
@@ -169,7 +169,7 @@ name: latest-manifest
 
 steps:
 - name: build-manifest
-  image: plugins/manifest
+  image: docker.io/plugins/manifest:latest
   settings:
     auto_tag: false
     ignore_missing: true
@@ -222,7 +222,7 @@ platform:
 
 steps:
 - name: build
-  image: plugins/docker
+  image: docker.io/plugins/docker:latest
   settings:
     dockerfile: Dockerfile
     auto_tag: true
@@ -271,7 +271,7 @@ name: tagged-manifest
 
 steps:
 - name: build-manifest
-  image: plugins/manifest
+  image: docker.io/plugins/manifest:latest
   settings:
     auto_tag: true
     ignore_missing: true

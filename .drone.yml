@@ -30,8 +30,8 @@ steps:
   image: docker.io/drillster/drone-email:latest
   resources:
     limits:
-      cpu: 50
-      memory: 25M
+      cpu: 150
+      memory: 150M
   when:
     status:
     - changed
@@ -170,6 +170,10 @@ name: latest-manifest
 steps:
 - name: build-manifest
   image: docker.io/plugins/manifest:latest
+  resources:
+    limits:
+      cpu: 150
+      memory: 150M
   settings:
     auto_tag: false
     ignore_missing: true
@@ -272,6 +276,10 @@ name: tagged-manifest
 steps:
 - name: build-manifest
   image: docker.io/plugins/manifest:latest
+  resources:
+    limits:
+      cpu: 150
+      memory: 150M
   settings:
     auto_tag: true
     ignore_missing: true

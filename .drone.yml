@@ -19,15 +19,17 @@ steps:
 
 - name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
-  image: docker.io/drillster/drone-email:latest
+  image: docker.io/volkerraschek/drone-email:0.1.1
   resources:
     limits:
       cpu: 150
@@ -46,6 +48,9 @@ trigger:
 kind: pipeline
 type: docker
 name: dry-run-amd64
+
+depends_on:
+- linter
 
 platform:
   os: linux
@@ -69,29 +74,23 @@ steps:
   - name: docker_socket
     path: /var/run/docker.sock
 
-- name: notify
-  image: docker.io/drillster/drone-email:latest
+- name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
+  image: docker.io/volkerraschek/drone-email:0.1.1
   when:
     status:
     - changed
     - failure
-
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
-
-depends_on:
-- linter
 
 trigger:
   branch:
@@ -103,10 +102,18 @@ trigger:
   repo:
   - volker.raschek/bind9-docker
 
+volumes:
+- name: docker_socket
+  host:
+    path: /var/run/docker.sock
+
 ---
 kind: pipeline
 type: docker
 name: latest-amd64
+
+depends_on:
+- linter
 
 platform:
   os: linux
@@ -129,29 +136,23 @@ steps:
   - name: docker_socket
     path: /var/run/docker.sock
 
-- name: notify
-  image: docker.io/drillster/drone-email:latest
+- name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
+  image: docker.io/volkerraschek/drone-email:0.1.1
   when:
     status:
     - changed
     - failure
-
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
-
-depends_on:
-- linter
 
 trigger:
   branch:
@@ -162,10 +163,18 @@ trigger:
   repo:
   - volker.raschek/bind9-docker
 
+volumes:
+- name: docker_socket
+  host:
+    path: /var/run/docker.sock
+
 ---
 kind: pipeline
 type: kubernetes
 name: latest-manifest
+
+depends_on:
+- latest-amd64
 
 steps:
 - name: build-manifest
@@ -183,17 +192,19 @@ steps:
     password:
       from_secret: container_image_registry_password
 
-- name: notify
-  image: docker.io/drillster/drone-email:latest
+- name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
+  image: docker.io/volkerraschek/drone-email:0.1.1
   resources:
     limits:
       cpu: 150
@@ -202,9 +213,6 @@ steps:
     status:
     - changed
     - failure
-
-depends_on:
-- latest-amd64
 
 trigger:
   branch:
@@ -241,26 +249,23 @@ steps:
   - name: docker_socket
     path: /var/run/docker.sock
 
-- name: notify
-  image: docker.io/drillster/drone-email:latest
+- name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
+  image: docker.io/volkerraschek/drone-email:0.1.1
   when:
     status:
     - changed
     - failure
-
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
 
 trigger:
   event:
@@ -268,10 +273,18 @@ trigger:
   repo:
   - volker.raschek/bind9-docker
 
+volumes:
+- name: docker_socket
+  host:
+    path: /var/run/docker.sock
+
 ---
 kind: pipeline
 type: kubernetes
 name: tagged-manifest
+
+depends_on:
+- tagged-amd64
 
 steps:
 - name: build-manifest
@@ -289,17 +302,19 @@ steps:
     password:
       from_secret: container_image_registry_password
 
-- name: notify
-  image: docker.io/drillster/drone-email:latest
+- name: email-notification
   environment:
-    PLUGIN_HOST:
+    SMTP_FROM_ADDRESS:
+      from_secret: smtp_from_address
+    SMTP_FROM_NAME:
+      from_secret: smtp_from_name
+    SMTP_HOST:
       from_secret: smtp_host
-    PLUGIN_USERNAME:
+    SMTP_USERNAME:
       from_secret: smtp_username
-    PLUGIN_PASSWORD:
+    SMTP_PASSWORD:
       from_secret: smtp_password
-    PLUGIN_FROM:
-      from_secret: smtp_mail_address
+  image: docker.io/volkerraschek/drone-email:0.1.1
   resources:
     limits:
       cpu: 150
@@ -308,9 +323,6 @@ steps:
     status:
     - changed
     - failure
-
-depends_on:
-- tagged-amd64
 
 trigger:
   event:

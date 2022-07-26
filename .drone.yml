@@ -70,9 +70,6 @@ steps:
     password:
       from_secret: container_image_registry_password
     no_cache: true
-  volumes:
-  - name: docker_socket
-    path: /var/run/docker.sock
 
 - name: email-notification
   environment:
@@ -102,11 +99,6 @@ trigger:
   repo:
   - volker.raschek/bind9-docker
 
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
-
 ---
 kind: pipeline
 type: docker
@@ -132,9 +124,6 @@ steps:
     password:
       from_secret: container_image_registry_password
     no_cache: true
-  volumes:
-  - name: docker_socket
-    path: /var/run/docker.sock
 
 - name: email-notification
   environment:
@@ -162,11 +151,6 @@ trigger:
   - push
   repo:
   - volker.raschek/bind9-docker
-
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
 
 ---
 kind: pipeline
@@ -245,9 +229,6 @@ steps:
     password:
       from_secret: container_image_registry_password
     no_cache: true
-  volumes:
-  - name: docker_socket
-    path: /var/run/docker.sock
 
 - name: email-notification
   environment:
@@ -272,11 +253,6 @@ trigger:
   - tag
   repo:
   - volker.raschek/bind9-docker
-
-volumes:
-- name: docker_socket
-  host:
-    path: /var/run/docker.sock
 
 ---
 kind: pipeline

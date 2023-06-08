@@ -4,7 +4,8 @@ RUN pacman \
       --sync \
       --sysupgrade \
       --refresh --noconfirm \
-        bind bind-tools
+        bind bind-tools && \
+    rm --recursive --force /var/cache/pacman/pkg
 
 RUN mkdir --parents /etc/bind/zones /var/log/bind && \
     mv /etc/named.conf /etc/bind/named.conf && \

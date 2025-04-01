@@ -5,8 +5,8 @@ CONTAINER_RUNTIME?=$(shell which podman)
 
 # BIND9_IMAGE_REGISTRY_NAME
 # Defines the name of the new container to be built using several variables.
-BIND9_IMAGE_REGISTRY_NAME:=git.cryptic.systems
-BIND9_IMAGE_REGISTRY_USER:=volker.raschek
+BIND9_IMAGE_REGISTRY_NAME?=git.cryptic.systems
+BIND9_IMAGE_REGISTRY_USER?=volker.raschek
 
 BIND9_IMAGE_NAMESPACE?=${BIND9_IMAGE_REGISTRY_USER}
 BIND9_IMAGE_NAME:=bind9

@@ -12,7 +12,6 @@ BIND9_IMAGE_NAMESPACE?=${BIND9_IMAGE_REGISTRY_USER}
 BIND9_IMAGE_NAME:=bind9
 BIND9_IMAGE_VERSION?=latest
 BIND9_IMAGE_FULLY_QUALIFIED=${BIND9_IMAGE_REGISTRY_NAME}/${BIND9_IMAGE_NAMESPACE}/${BIND9_IMAGE_NAME}:${BIND9_IMAGE_VERSION}
-BIND9_IMAGE_UNQUALIFIED=${BIND9_IMAGE_NAMESPACE}/${BIND9_IMAGE_NAME}:${BIND9_IMAGE_VERSION}
 
 # BUILD CONTAINER IMAGE
 # ==============================================================================
@@ -23,14 +22,14 @@ container-image/build:
 		--no-cache \
 		--pull \
 		--tag ${BIND9_IMAGE_FULLY_QUALIFIED} \
-		--tag ${BIND9_IMAGE_UNQUALIFIED} \
+		--tag \
 		.
 
 # DELETE CONTAINER IMAGE
 # ==============================================================================
 PHONY:=container-image/delete
 container-image/delete:
-	- ${CONTAINER_RUNTIME} image rm ${BIND9_IMAGE_FULLY_QUALIFIED} ${BIND9_IMAGE_UNQUALIFIED}
+	- ${CONTAINER_RUNTIME} image rm ${BIND9_IMAGE_FULLY_QUALIFIED}
 	- ${CONTAINER_RUNTIME} image rm ${BASE_IMAGE_FULL}
 
 # PUSH CONTAINER IMAGE

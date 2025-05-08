@@ -30,7 +30,6 @@ container-image/build:
 PHONY:=container-image/delete
 container-image/delete:
 	- ${CONTAINER_RUNTIME} image rm ${BIND9_IMAGE_FULLY_QUALIFIED}
-	- ${CONTAINER_RUNTIME} image rm ${BASE_IMAGE_FULL}
 
 # PUSH CONTAINER IMAGE
 # ==============================================================================

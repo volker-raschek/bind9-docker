@@ -1,6 +1,5 @@
 # bind9-docker
 
-[![Build Status](https://drone.cryptic.systems/api/badges/volker.raschek/bind9-docker/status.svg)](https://drone.cryptic.systems/volker.raschek/bind9-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/volkerraschek/bind9)](https://hub.docker.com/r/volkerraschek/bind9)
 
 This project contains all sources to build the container image

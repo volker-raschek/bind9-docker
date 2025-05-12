@@ -3,7 +3,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/volkerraschek/bind9)](https://hub.docker.com/r/volkerraschek/bind9)
 
 This project contains all sources to build the container image
-`docker.io/volkerraschek/bind9`. The primary goal of the image is only
+`git.cryptic.systems/volker.raschek/bind9`. The primary goal of the image is only
 to start a simple bind9 dns server.
 
 The configuration files must be manually mounted into the container.

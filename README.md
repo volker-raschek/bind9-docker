@@ -19,7 +19,7 @@ docker run \
   --publish 53:53/tcp \
   --publish 53:53/udp \
   --volume <config/path>:/etc/bind \
-  volkerraschek/bind9
+  git.cryptic.systems/volker.raschek/bind9
 ```
 
 ## Build image manually
